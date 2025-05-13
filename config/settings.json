@@ -1,0 +1,12 @@
+{
+    "enabled": true,
+    "trigger": "exit-intent",
+    "cookie_duration": 1,
+    "heading": "Hello",
+    "message": "HelloHelloHelloHello",
+    "image_url": "popup_6823a08b148656.88048259.jpg",
+    "button_text": "HelloHelloHelloHello",
+    "button_link": "Hello",
+    "button_bg_color": "#d9a430",
+    "button_text_color": "#d90d0d"
+}
