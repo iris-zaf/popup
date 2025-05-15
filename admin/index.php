@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../includes/functions.php';
 
 $settings = get_popup_settings();
@@ -27,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (in_array($fileExt, $allowedExts)) {
             $newFileName = uniqid('popup_', true) . '.' . $fileExt;
-            $uploadPath = __DIR__ . '/../uploads/images/popup' . $newFileName;
+            $uploadPath = __DIR__ . '/../uploads/images/popup/' . $newFileName;
 
             if (move_uploaded_file($fileTmpPath, $uploadPath)) {
                 $newSettings['image_url'] = $newFileName;
@@ -52,9 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <title>Popup Admin Panel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="icon" href="/popup-plugin/admin/favicon.ico" type="image/x-icon">
-
-    <link rel="stylesheet" href="../assets/css/admin-styles.css">
+    <link rel="icon" href="<?= PLUGIN_ROOT ?>admin/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="<?= PLUGIN_ASSETS ?>css/admin-styles.css">
 </head>
 
 <body>
@@ -102,8 +102,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
                 <?php if (!empty($settings['image_url'])): ?>
-                    <img src="/popup/uploads/images/popup<?= htmlspecialchars($settings['image_url']) ?>"
-                        class="preview-image" alt="Popup Image">
+                    <img src="<?= PLUGIN_UPLOADS . htmlspecialchars($settings['image_url']) ?>" class="preview-image"
+                        alt="Popup Image">
                 <?php endif; ?>
 
                 <label class="form-label mt-3" title="This is the text inside the CTA button">CTA
@@ -170,53 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
 
-    <script>
-        function toggleDelayInput() {
-            const trigger = document.getElementById('triggerSelect').value;
-            document.getElementById('delayInput').style.display = (trigger === 'delay') ? 'block' : 'none';
-        }
-
-        function toggleSettingsPanel() {
-            const enabled = document.getElementById('enabledSelect').value;
-            document.getElementById('settingsPanel').style.display = (enabled === '1') ? 'block' : 'none';
-        }
-
-
-        document.addEventListener('DOMContentLoaded', () => {
-            toggleSettingsPanel();
-            toggleDelayInput();
-        });
-
-        function openPreview() {
-            const form = document.querySelector('form');
-            const formData = new FormData(form);
-
-            fetch('preview.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(res => res.text())
-                .then(html => {
-                    const frame = document.getElementById('previewFrame');
-                    frame.srcdoc = html;
-                    const modal = new bootstrap.Modal(document.getElementById('previewModal'));
-                    modal.show();
-                })
-                .catch(err => {
-                    alert('Preview failed to load.');
-                    console.error(err);
-                });
-        }
-
-        //gia to preview
-        function updateImageURL(input) {
-            if (input.files.length > 0) {
-                const fileName = input.files[0].name;
-                document.getElementById('image_url_field').value = fileName;
-            }
-        }
-    </script>
-
+    <script src="<?= PLUGIN_ASSETS ?>js/admin-scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
