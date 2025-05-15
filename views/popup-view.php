@@ -29,26 +29,26 @@ $settings = get_popup_settings();
         <span id="popup-close" onclick="closePopup()">×</span>
 
         <?php if (!empty($settings['image_url'])): ?>
-            <img src="/popup/uploads/images/popup<?= htmlspecialchars($settings['image_url']) ?>" alt="Popup Image">
+        <img src="/popup/uploads/images/popup/<?= htmlspecialchars($settings['image_url']) ?>" alt="Popup Image">
         <?php endif; ?>
 
         <?php if (!empty($settings['heading'])): ?>
-            <h3><?= htmlspecialchars($settings['heading']) ?></h3>
+        <h3><?= htmlspecialchars($settings['heading']) ?></h3>
         <?php endif; ?>
 
         <?php if (!empty($settings['message'])): ?>
-            <p><?= nl2br(htmlspecialchars($settings['message'])) ?></p>
+        <p><?= nl2br(htmlspecialchars($settings['message'])) ?></p>
         <?php endif; ?>
 
         <?php if (!empty($settings['button_text']) && !empty($settings['button_link'])): ?>
-            <a href="<?= htmlspecialchars($settings['button_link']) ?>" class="btn" style="background-color: <?= htmlspecialchars($settings['button_bg_color'] ?? '#007bff') ?>;
+        <a href="<?= htmlspecialchars($settings['button_link']) ?>" class="btn" style="background-color: <?= htmlspecialchars($settings['button_bg_color'] ?? '#007bff') ?>;
                       color: <?= htmlspecialchars($settings['button_text_color'] ?? '#ffffff') ?>;" target="_blank">
-                <?= htmlspecialchars($settings['button_text']) ?>
-            </a>
+            <?= htmlspecialchars($settings['button_text']) ?>
+        </a>
         <?php endif; ?>
     </div>
     <script>
-        const settings = <?= json_encode($settings) ?>;
+    const settings = <?= json_encode($settings) ?>;
     </script>
     <script src="<?= PLUGIN_ASSETS ?>js/frontend-scripts.js"></script>
 </body>
