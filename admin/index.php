@@ -164,7 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <select name="target_page" class="form-select">
                 <option value="all" <?= ($settings['target_page'] ?? '') === 'all' ? 'selected' : '' ?>>All Pages
                 </option>
-                <option value="homepage" <?= ($settings['target_page'] ?? '') === 'homepage' ? 'selected' : '' ?>>
+                <option value="home" <?= ($settings['target_page'] ?? '') === 'home' ? 'selected' : '' ?>>
                     Homepage</option>
                 <option value="about" <?= ($settings['target_page'] ?? '') === 'about' ? 'selected' : '' ?>>About Page
                 </option>
