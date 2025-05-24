@@ -23,6 +23,12 @@ function closePopup() {
 document.addEventListener("DOMContentLoaded", () => {
   if (!settings.enabled) return;
 
+  const closeBtn = document.getElementById("popup-close");
+  const overlay = document.getElementById("popup-overlay");
+
+  if (closeBtn) closeBtn.addEventListener("click", closePopup);
+  if (overlay) overlay.addEventListener("click", closePopup);
+
   if (settings.trigger === "delay") {
     const delayTime = settings.delay || 5;
     setTimeout(showPopup, delayTime * 1000);

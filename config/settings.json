@@ -2,11 +2,11 @@
     "enabled": true,
     "trigger": "exit-intent",
     "cookie_duration": 1,
-    "heading": "Hello",
+    "heading": "Hellooooo",
     "message": "HelloHelloHelloHello",
-    "image_url": "popup_682669d37f3466.47200497.png",
+    "image_url": "popup_68318fb40773a5.19874025.jpg",
     "button_text": "HelloHelloHelloHello",
-    "button_link": "Hello",
-    "button_bg_color": "#84ccd2",
+    "button_link": "Helloooooo",
+    "button_bg_color": "#7e5d3e",
     "button_text_color": "#fdf7f7"
 }

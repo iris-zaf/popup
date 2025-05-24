@@ -64,8 +64,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <h2 class="mb-4">🛠 Popup Settings</h2>
             </div>
             <div class="col ">
-                <img src="/popup/admin/popcorn.png" alt="Logo" style="width: 120px; margin-bottom: 20px;">
+                <img src="/admin/popcorn.png" alt="Logo" style="width: 120px; margin-bottom: 20px;">
             </div>
+            <?php if ($settings['enabled']): ?>
+                <a href="<?= PLUGIN_ROOT ?>frontend.php" target="_blank" class="btn btn-success">🌐 View
+                    Frontend</a>
+            <?php endif; ?>
         </div>
         <?php if ($message): ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
