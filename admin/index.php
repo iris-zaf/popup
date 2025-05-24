@@ -69,17 +69,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <img src="/admin/popcorn.png" alt="Logo" style="width: 120px; margin-bottom: 20px;">
             </div>
             <?php if ($settings['enabled']): ?>
-                <a href="<?= PLUGIN_ROOT ?>frontend/index.php?page=home" target="_blank" class="btn btn-success">🌐 View
-                    Home</a>
-                <a href="<?= PLUGIN_ROOT ?>frontend/index.php?page=about" target="_blank" class="btn btn-info">🌐 View
-                    About</a>
-
+                <div class="d-flex gap-2 justify-content-end">
+                    <a href="<?= PLUGIN_ROOT ?>frontend/index.php?page=home" target="_blank" class="btn btn-success col ">🌐 View
+                        Home</a>
+                    <a href="<?= PLUGIN_ROOT ?>frontend/index.php?page=about" target="_blank" class="btn btn-secondary  col ">ℹ️ View
+                        About</a>
+                </div>
             <?php endif; ?>
         </div>
         <?php if ($message): ?>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <?= $message ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <div class="col-12">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <?= $message ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
             </div>
         <?php endif; ?>
         <form method="POST" enctype="multipart/form-data">

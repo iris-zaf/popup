@@ -48,3 +48,10 @@ function updateImageURL(input) {
     document.getElementById("image_url_field").value = fileName;
   }
 }
+setTimeout(() => {
+  const alert = document.querySelector(".alert");
+  if (alert) {
+    const bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
+    bsAlert.close();
+  }
+}, 2500);

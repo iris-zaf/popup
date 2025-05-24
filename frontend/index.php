@@ -14,8 +14,6 @@ if (!in_array($page, $allowedPages)) {
 
 $currentPage = $page === 'index' ? 'homepage' : $page;
 
-// expose settings to child views
 global $settings, $currentPage;
 
-// this will render the page itself (with head/body/HTML tags)
 include __DIR__ . "/{$page}.php";
