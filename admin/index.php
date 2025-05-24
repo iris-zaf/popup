@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'cookie_duration' => isset($_POST['cookie_duration']) ? (int) $_POST['cookie_duration'] : 1,
         'heading' => $_POST['heading'] ?? '',
         'message' => $_POST['message'] ?? '',
-        'image_url' => $_POST['image_url'] ?? '',
+        'image_url' => $settings['image_url'] ?? '',
         'button_text' => $_POST['button_text'] ?? '',
         'button_link' => $_POST['button_link'] ?? '',
         'button_bg_color' => $_POST['button_bg_color'] ?? '#007bff',
@@ -35,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
+
 
 
 
