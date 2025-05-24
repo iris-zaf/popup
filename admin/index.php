@@ -6,6 +6,10 @@ $settings = get_popup_settings();
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $buttonLink = $_POST['button_link'] ?? '';
+    if ($buttonLink && !preg_match('/^https?:\/\//', $buttonLink)) {
+        $buttonLink = 'https://' . $buttonLink;
+    }
     $newSettings = [
         'enabled' => $_POST['enabled'] == '1' ? true : false,
         'trigger' => $_POST['trigger'],
@@ -15,8 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'target_page' => $_POST['target_page'] ?? 'all',
         'image_url' => $settings['image_url'] ?? '',
         'button_text' => $_POST['button_text'] ?? '',
-        'button_link' => $_POST['button_link'] ?? '',
+        'button_link' => $buttonLink,
         'button_bg_color' => $_POST['button_bg_color'] ?? '#007bff',
+        'display_mode' => $_POST['display_mode'] ?? 'standard',
         'button_text_color' => $_POST['button_text_color'] ?? '#ffffff',
 
 
@@ -96,13 +101,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div id="settingsPanel" <?= !$settings['enabled'] ? 'style="display:none;"' : '' ?>>
 
-                <label class="form-label" title="This is the title shown at the top of the popup">Popup Heading:</label>
-                <input type="text" class="form-control" name="heading"
-                    value="<?= htmlspecialchars($settings['heading'] ?? '') ?>">
+                <label class="form-label mt-3" title="Select how the popup should be displayed">Display Mode:</label>
+                <select name="display_mode" class="form-select" id="displayModeSelect">
+                    <option value="standard" <?= ($settings['display_mode'] ?? '') === 'standard' ? 'selected' : '' ?>>🖼 Standard (image + heading + message + button)</option>
+                    <option value="background" <?= ($settings['display_mode'] ?? '') === 'background' ? 'selected' : '' ?>>🌄 Background Image with Text</option>
+                    <option value="minimal" <?= ($settings['display_mode'] ?? '') === 'minimal' ? 'selected' : '' ?>>🎯 Background Image + Button only</option>
+                </select>
 
-                <label class="form-label" title="This is the text shown below the title">Popup Message:</label>
-                <textarea class="form-control" name="message"
-                    rows="3"><?= htmlspecialchars($settings['message'] ?? '') ?></textarea>
 
                 <label class="form-label"
                     title="This is the image, can be placed on top of the button or as background">Upload
@@ -117,26 +122,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <img src="<?= PLUGIN_UPLOADS . htmlspecialchars($settings['image_url']) ?>" class="preview-image"
                         alt="Popup Image">
                 <?php endif; ?>
+                <div class="display-group standard background" id="field-heading">
+                    <label class="form-label" title="This is the title shown at the top of the popup">Popup Heading:</label>
+                    <input type="text" class="form-control" name="heading"
+                        value="<?= htmlspecialchars($settings['heading'] ?? '') ?>">
+                </div>
+                <div class="display-group standard background" id="field-button-text">
+                    <label class="form-label mt-3" title="This is the text inside the CTA button">CTA
+                        Button Text:</label>
+                    <input type="text" class="form-control" name="button_text"
+                        value="<?= htmlspecialchars($settings['button_text'] ?? '') ?>">
+                </div>
+                <div class="display-group standard background" id="field-message">
+                    <label class="form-label" title="This is the text shown below the title">Popup Message:</label>
+                    <textarea class="form-control" name="message"
+                        rows="3"><?= htmlspecialchars($settings['message'] ?? '') ?></textarea>
+                </div>
 
-                <label class="form-label mt-3" title="This is the text inside the CTA button">CTA
-                    Button Text:</label>
-                <input type="text" class="form-control" name="button_text"
-                    value="<?= htmlspecialchars($settings['button_text'] ?? '') ?>">
+                <div class="display-group standard minimal" id="field-button-link">
+                    <label class="form-label" title="This is the link inside the CTA button">CTA
+                        Button Link:</label>
+                    <input type="text" class="form-control" name="button_link"
+                        value="<?= htmlspecialchars($settings['button_link'] ?? '') ?>">
+                </div>
 
-                <label class="form-label" title="This is the link inside the CTA button">CTA
-                    Button Link:</label>
-                <input type="text" class="form-control" name="button_link"
-                    value="<?= htmlspecialchars($settings['button_link'] ?? '') ?>">
+                <div class="display-group standard minimal" id="field-button-bg-color">
+                    <label class="form-label" title="This is the background color of  the CTA button">Button Background
+                        Color:</label>
+                    <input type="color" class="form-control form-control-color" name="button_bg_color"
+                        value="<?= htmlspecialchars($settings['button_bg_color'] ?? '#007bff') ?>">
+                </div>
+                <div class="display-group standard minimal" id="field-button-text-color">
+                    <label class="form-label" title="This is the text color of  the CTA button">Button Text
+                        Color:</label>
+                    <input type="color" class="form-control form-control-color" name="button_text_color"
+                        value="<?= htmlspecialchars($settings['button_text_color'] ?? '#ffffff') ?>">
+                </div>
 
-                <label class="form-label" title="This is the background color of  the CTA button">Button Background
-                    Color:</label>
-                <input type="color" class="form-control form-control-color" name="button_bg_color"
-                    value="<?= htmlspecialchars($settings['button_bg_color'] ?? '#007bff') ?>">
-
-                <label class="form-label" title="This is the text color of  the CTA button">Button Text
-                    Color:</label>
-                <input type="color" class="form-control form-control-color" name="button_text_color"
-                    value="<?= htmlspecialchars($settings['button_text_color'] ?? '#ffffff') ?>">
 
                 <label class="form-label" title="This is when the popup will appear ">Trigger Type:</label>
                 <select class=" form-select" name="trigger" id="triggerSelect" onchange="toggleDelayInput()">
@@ -190,6 +212,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </div>
+    <script>
+        function updateDisplayModeFields() {
+            const mode = document.getElementById('displayModeSelect').value;
+
+            const fields = {
+                heading: document.getElementById('field-heading'),
+                message: document.getElementById('field-message'),
+                buttonText: document.getElementById('field-button-text'),
+                buttonLink: document.getElementById('field-button-link'),
+                buttonBgColor: document.getElementById('field-button-bg-color'),
+                buttonTextColor: document.getElementById('field-button-text-color')
+            };
+
+            for (const key in fields) {
+                if (fields[key]) fields[key].style.display = 'none';
+            }
+
+            if (mode === 'standard') {
+                fields.heading.style.display = 'block';
+                fields.message.style.display = 'block';
+                fields.buttonText.style.display = 'block';
+                fields.buttonLink.style.display = 'block';
+                fields.buttonBgColor.style.display = 'block';
+                fields.buttonTextColor.style.display = 'block';
+            } else if (mode === 'background') {
+                fields.buttonLink.style.display = 'block';
+            } else if (mode === 'minimal') {
+                fields.buttonText.style.display = 'block';
+                fields.buttonLink.style.display = 'block';
+                fields.buttonBgColor.style.display = 'block';
+                fields.buttonTextColor.style.display = 'block';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', updateDisplayModeFields);
+        document.getElementById('displayModeSelect').addEventListener('change', updateDisplayModeFields);
+    </script>
 
 
     <script src="<?= PLUGIN_ASSETS ?>js/admin-scripts.js"></script>
