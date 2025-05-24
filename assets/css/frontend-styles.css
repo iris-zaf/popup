@@ -109,6 +109,24 @@ body {
   color: #000;
 }
 
+@media (max-width: 576px) {
+  #popup {
+    width: 90vw;
+    max-width: none;
+    padding: 20px 15px;
+  }
+
+  #popup .btn {
+    padding: 14px;
+    font-size: 1.1rem;
+  }
+
+  #popup-close {
+    top: 10px;
+    right: 10px;
+  }
+}
+
 .intro {
   text-align: center;
   padding: 100px 20px 40px;
@@ -204,16 +222,19 @@ footer {
 
 .popup-minimal .popup-content {
   position: absolute;
-  bottom: 20px;
+  bottom: 16px;
   width: 100%;
   text-align: center;
+  padding: 0 10px;
+  box-sizing: border-box;
 }
 
 .popup-bottom-btn {
-  display: inline-block;
+  width: 100%;
+  max-width: 90%;
   padding: 12px 20px;
-  border-radius: 8px;
-  font-weight: bold;
+  margin: 0 auto;
+  font-size: 1rem;
   text-decoration: none;
   border: none;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
