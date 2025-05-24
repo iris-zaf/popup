@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'cookie_duration' => isset($_POST['cookie_duration']) ? (int) $_POST['cookie_duration'] : 1,
         'heading' => $_POST['heading'] ?? '',
         'message' => $_POST['message'] ?? '',
+        'target_page' => $_POST['target_page'] ?? 'all',
         'image_url' => $settings['image_url'] ?? '',
         'button_text' => $_POST['button_text'] ?? '',
         'button_link' => $_POST['button_link'] ?? '',
@@ -68,8 +69,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <img src="/admin/popcorn.png" alt="Logo" style="width: 120px; margin-bottom: 20px;">
             </div>
             <?php if ($settings['enabled']): ?>
-                <a href="<?= PLUGIN_ROOT ?>frontend.php" target="_blank" class="btn btn-success">🌐 View
-                    Frontend</a>
+                <a href="<?= PLUGIN_ROOT ?>frontend/index.php?page=home" target="_blank" class="btn btn-success">🌐 View
+                    Home</a>
+                <a href="<?= PLUGIN_ROOT ?>frontend/index.php?page=about" target="_blank" class="btn btn-info">🌐 View
+                    About</a>
+
             <?php endif; ?>
         </div>
         <?php if ($message): ?>
@@ -153,6 +157,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     value="<?= htmlspecialchars($settings['cookie_duration'] ?? 1) ?>">
 
             </div>
+            <label class="form-label mt-3" title="Select which page(s) to show the popup on">Show on Page(s):</label>
+            <select name="target_page" class="form-select">
+                <option value="all" <?= ($settings['target_page'] ?? '') === 'all' ? 'selected' : '' ?>>All Pages
+                </option>
+                <option value="homepage" <?= ($settings['target_page'] ?? '') === 'homepage' ? 'selected' : '' ?>>
+                    Homepage</option>
+                <option value="about" <?= ($settings['target_page'] ?? '') === 'about' ? 'selected' : '' ?>>About Page
+                </option>
+            </select>
+
 
             <div class="d-flex gap-2 mt-4">
                 <button type="submit" class="btn btn-primary">💾 Save Settings</button>
