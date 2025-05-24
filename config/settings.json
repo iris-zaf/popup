@@ -9,6 +9,6 @@
     "button_text": "Test 1",
     "button_link": "https:\/\/www.zakcret.gr",
     "button_bg_color": "#e23d32",
-    "display_mode": "minimal",
+    "display_mode": "background",
     "button_text_color": "#fdf7f7"
 }

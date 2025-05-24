@@ -3,6 +3,12 @@ require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../includes/functions.php';
 
 $settings = get_popup_settings();
+$mode = $settings['display_mode'] ?? 'standard';
+$imageUrl = !empty($settings['image_url']) ? PLUGIN_UPLOADS . htmlspecialchars($settings['image_url']) : '';
+$buttonText = htmlspecialchars($settings['button_text'] ?? '');
+$buttonLink = htmlspecialchars($settings['button_link'] ?? '#');
+$bgColor = htmlspecialchars($settings['button_bg_color'] ?? '#007bff');
+$textColor = htmlspecialchars($settings['button_text_color'] ?? '#ffffff');
 ?>
 
 <!DOCTYPE html>
@@ -13,11 +19,22 @@ $settings = get_popup_settings();
     <title>Popup Preview</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= PLUGIN_ASSETS ?>css/frontend-styles.css">
+    <style>
+        body {
+            background: #f3f3f3;
+        }
+
+        #popup {
+            display: block;
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+    </style>
 </head>
 
 <body>
 
-    <div id="popup" style="display: block; transform: translate(-50%, -50%) scale(1); opacity: 1;">
+    <div id="popup" class="popup-<?= $mode ?>" style="<?= ($mode !== 'standard' && $imageUrl) ? "background-image: url('$imageUrl'); background-size: cover; background-position: center;" : '' ?>">
 
         <?php if (empty($settings['image_url'])): ?>
             <div class="p-4 text-center">
@@ -27,20 +44,31 @@ $settings = get_popup_settings();
             </div>
         <?php else: ?>
 
-            <img src="<?= PLUGIN_UPLOADS . htmlspecialchars($settings['image_url']) ?>" alt="Popup Image">
+            <?php if ($mode === 'standard'): ?>
+                <img src="<?= $imageUrl ?>" alt="Popup Image">
+                <?php if (!empty($settings['heading'])): ?>
+                    <h3><?= htmlspecialchars($settings['heading']) ?></h3>
+                <?php endif; ?>
+                <?php if (!empty($settings['message'])): ?>
+                    <p><?= nl2br(htmlspecialchars($settings['message'])) ?></p>
+                <?php endif; ?>
+                <?php if (!empty($buttonText) && !empty($buttonLink)): ?>
+                    <a href="<?= $buttonLink ?>" class="btn" style="background-color: <?= $bgColor ?>; color: <?= $textColor ?>;" target="_blank">
+                        <?= $buttonText ?>
+                    </a>
+                <?php endif; ?>
 
-            <?php if (!empty($settings['heading'])): ?>
-                <h3><?= htmlspecialchars($settings['heading']) ?></h3>
-            <?php endif; ?>
+            <?php elseif ($mode === 'background'): ?>
+                <a href="<?= $buttonLink ?>" class="popup-full-link" target="_blank" aria-label="Open Link"></a>
 
-            <?php if (!empty($settings['message'])): ?>
-                <p><?= nl2br(htmlspecialchars($settings['message'])) ?></p>
-            <?php endif; ?>
-
-            <?php if (!empty($settings['button_text']) && !empty($settings['button_link'])): ?>
-                <a href="<?= htmlspecialchars($settings['button_link']) ?>" class="btn" style="background-color: <?= htmlspecialchars($settings['button_bg_color']) ?>;
-                      color: <?= htmlspecialchars($settings['button_text_color']) ?>;"
-                    target="_blank"><?= htmlspecialchars($settings['button_text']) ?></a>
+            <?php elseif ($mode === 'minimal'): ?>
+                <div class="popup-content">
+                    <?php if (!empty($buttonText) && !empty($buttonLink)): ?>
+                        <a href="<?= $buttonLink ?>" class="btn popup-bottom-btn" style="background-color: <?= $bgColor ?>; color: <?= $textColor ?>;" target="_blank">
+                            <?= $buttonText ?>
+                        </a>
+                    <?php endif; ?>
+                </div>
             <?php endif; ?>
 
         <?php endif; ?>
