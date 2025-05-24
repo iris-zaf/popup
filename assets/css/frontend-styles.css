@@ -1,6 +1,6 @@
 body {
   font-family: "Segoe UI", sans-serif;
-  background: #fdfdfd;
+  background: linear-gradient(to right, #f8f9fa, #e3f2fd);
   margin: 0;
   padding: 0;
 }
@@ -109,4 +109,82 @@ body {
 
 #popup-close:hover {
   color: #000;
+}
+
+.intro {
+  text-align: center;
+  padding: 100px 20px 40px;
+}
+
+.intro h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.intro p {
+  font-size: 1.25rem;
+  color: #555;
+}
+
+.emoji-list {
+  font-size: 2rem;
+  margin-top: 20px;
+}
+
+.emoji-list span {
+  margin: 0 10px;
+}
+
+.contact-link {
+  margin-top: 30px;
+  display: inline-block;
+  font-weight: 500;
+  font-size: 1.1rem;
+  text-decoration: none;
+  color: #007bff;
+}
+
+.contact-link:hover {
+  text-decoration: underline;
+}
+.about-section {
+  max-width: 800px;
+  margin: 60px auto;
+  padding: 40px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.hero {
+  padding: 100px 20px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 3.2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #212529;
+}
+
+.hero p {
+  font-size: 1.25rem;
+  color: #555;
+  max-width: 600px;
+  margin: 0 auto 30px;
+}
+
+.hero .btn {
+  padding: 12px 30px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+footer {
+  text-align: center;
+  margin-top: 60px;
+  padding: 20px;
+  font-size: 0.9rem;
+  color: #888;
 }
