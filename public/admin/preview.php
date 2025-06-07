@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/../config/config.php';
-require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../../config/config.php';
+require_once __DIR__ . '/../../includes/functions.php';
 
 $settings = get_popup_settings();
 $mode = $settings['display_mode'] ?? 'standard';
@@ -52,8 +52,10 @@ $textColor = htmlspecialchars($settings['button_text_color'] ?? '#ffffff');
                 <?php if (!empty($settings['message'])): ?>
                     <p><?= nl2br(htmlspecialchars($settings['message'])) ?></p>
                 <?php endif; ?>
-                <?php if (!empty($buttonText) && !empty($buttonLink)): ?>
-                    <a href="<?= $buttonLink ?>" class="btn" style="background-color: <?= $bgColor ?>; color: <?= $textColor ?>;" target="_blank">
+                <?php if (!empty($buttonText)): ?>
+                    <a href="<?= !empty($buttonLink) ? $buttonLink : '#' ?>"
+                        class="btn"
+                        style="background-color: <?= $bgColor ?> !important; color: <?= $textColor ?> !important; <?= empty($buttonLink) ? 'pointer-events: none;' : '' ?>">
                         <?= $buttonText ?>
                     </a>
                 <?php endif; ?>
@@ -63,8 +65,10 @@ $textColor = htmlspecialchars($settings['button_text_color'] ?? '#ffffff');
 
             <?php elseif ($mode === 'minimal'): ?>
                 <div class="popup-content">
-                    <?php if (!empty($buttonText) && !empty($buttonLink)): ?>
-                        <a href="<?= $buttonLink ?>" class="btn popup-bottom-btn" style="background-color: <?= $bgColor ?>; color: <?= $textColor ?>;" target="_blank">
+                    <?php if (!empty($buttonText)): ?>
+                        <a href="<?= !empty($buttonLink) ? $buttonLink : '#' ?>"
+                            class="btn"
+                            style="background-color: <?= $bgColor ?> !important; color: <?= $textColor ?> !important; <?= empty($buttonLink) ? 'pointer-events: none;' : '' ?>">
                             <?= $buttonText ?>
                         </a>
                     <?php endif; ?>

@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/../config/config.php';
-require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../../config/config.php';
+require_once __DIR__ . '/../../includes/functions.php';
 
 $settings = get_popup_settings();
 $message = '';
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <h2 class="mb-4">🛠 Popup Settings</h2>
             </div>
             <div class="col ">
-                <img src="/admin/popcorn.png" alt="Logo" style="width: 120px; margin-bottom: 20px;">
+                <img src="popcorn.png" alt="Logo" style="width: 120px; margin-bottom: 20px;">
             </div>
             <?php if ($settings['enabled']): ?>
                 <div class="d-flex gap-2 justify-content-end">

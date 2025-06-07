@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../config/config.php';
-require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../../config/config.php';
+require_once __DIR__ . '/../../includes/functions.php';
 $settings = get_popup_settings();
 $mode = $settings['display_mode'] ?? 'standard';
 $imageUrl = !empty($settings['image_url']) ? '/uploads/images/popup/' . htmlspecialchars($settings['image_url']) : '';
@@ -38,10 +38,12 @@ $textColor = htmlspecialchars($settings['button_text_color'] ?? '#ffffff');
                 <p><?= nl2br(htmlspecialchars($settings['message'])) ?></p>
             <?php endif; ?>
 
-            <?php if (!empty($settings['button_text']) && !empty($settings['button_link'])): ?>
-                <a href="<?= htmlspecialchars($settings['button_link']) ?>" class="btn" style="background-color: <?= htmlspecialchars($settings['button_bg_color'] ?? '#007bff') ?>;
-                      color: <?= htmlspecialchars($settings['button_text_color'] ?? '#ffffff') ?>;" target="_blank">
-                    <?= htmlspecialchars($settings['button_text']) ?>
+            <?php if (!empty($buttonText)): ?>
+                <a href="<?= !empty($buttonLink) ? $buttonLink : '#' ?>"
+                    class="btn"
+                    style="background-color: <?= $bgColor ?> !important; color: <?= $textColor ?> !important; <?= empty($buttonLink) ? 'pointer-events: none; opacity: 0.6;' : '' ?>"
+                    <?= !empty($buttonLink) ? 'target="_blank"' : '' ?>>
+                    <?= $buttonText ?>
                 </a>
             <?php endif; ?>
         <?php elseif ($mode === 'background'): ?>
@@ -51,8 +53,13 @@ $textColor = htmlspecialchars($settings['button_text_color'] ?? '#ffffff');
 
         <?php elseif ($mode === 'minimal'): ?>
             <div class="popup-content">
-                <?php if (!empty($buttonText) && !empty($buttonLink)): ?>
-                    <a href="<?= $buttonLink ?>" class="btn" style="background-color: <?= $bgColor ?>; color: <?= $textColor ?>;" target="_blank"><?= $buttonText ?></a>
+                <?php if (!empty($buttonText)): ?>
+                    <a href="<?= !empty($buttonLink) ? $buttonLink : '#' ?>"
+                        class="btn"
+                        style="background-color: <?= $bgColor ?> !important; color: <?= $textColor ?> !important; <?= empty($buttonLink) ? 'pointer-events: none; opacity: 0.6;' : '' ?>"
+                        <?= !empty($buttonLink) ? 'target="_blank"' : '' ?>>
+                        <?= $buttonText ?>
+                    </a>
                 <?php endif; ?>
             </div>
         <?php endif; ?>
