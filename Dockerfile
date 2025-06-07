@@ -8,7 +8,7 @@ COPY . .
 
 EXPOSE 10000
 
-# 👇 Make upload folders writable
-RUN chmod -R 777 /app/public/uploads
+# 👇 Create upload folders & make them writable
+RUN mkdir -p /app/public/uploads/images/popup && chmod -R 777 /app/public/uploads
 
 CMD ["php", "-S", "0.0.0.0:10000", "-t", "public"]
