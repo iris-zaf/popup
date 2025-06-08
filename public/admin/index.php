@@ -42,11 +42,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-
-
-
     if ($_POST['trigger'] === 'delay') {
         $newSettings['delay'] = isset($_POST['delay']) ? (int) $_POST['delay'] : 5;
+    }
+    if ($_POST['trigger'] === 'scroll') {
+        $newSettings['scroll_percent'] = isset($_POST['scroll_percent']) ? (int) $_POST['scroll_percent'] : 50;
     }
 
     save_popup_settings($newSettings);
@@ -164,10 +164,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <select class=" form-select" name="trigger" id="triggerSelect" onchange="toggleDelayInput()">
                     <option value="exit-intent" <?= $settings['trigger'] === 'exit-intent' ? 'selected' : '' ?>>Exit
                         Intent</option>
-                    <option value="delay" <?= $settings['trigger'] === 'delay' ? 'selected' : '' ?>>Time Delay
+                    <option value="delay" <?= $settings['trigger'] === 'delay' ? 'selected' : '' ?>>Time Delay<span>(on mobile only this trigger applies)</span>
+                    </option>
+                    <option value="scroll" <?= $settings['trigger'] === 'scroll' ? 'selected' : '' ?>>On scroll
                     </option>
                 </select>
-
+                <div id="scrollInput" style="<?= $settings['trigger'] === 'scroll' ? '' : 'display:none;' ?>">
+                    <label class="form-label mt-3" title="Scroll % required before popup appears">Scroll Trigger (%)</label>
+                    <input type="number" class="form-control" name="scroll_percent" min="1" max="100"
+                        value="<?= htmlspecialchars($settings['scroll_percent'] ?? 50) ?>">
+                </div>
                 <div id="delayInput" style="<?= $settings['trigger'] === 'delay' ? '' : 'display:none;' ?>">
                     <label class="form-label mt-3" title="This is how long until the popup appears">Delay (in
                         seconds):</label>

@@ -1,14 +1,15 @@
 {
     "enabled": true,
-    "trigger": "exit-intent",
+    "trigger": "scroll",
     "cookie_duration": 1,
     "heading": "Test 1",
     "message": "Test 1Test 1Test 1",
     "target_page": "all",
-    "image_url": "popup_6844309e861243.86676355.png",
+    "image_url": "popup_6845ad0585eec1.64158531.png",
     "button_text": "Test 1",
     "button_link": "https:\/\/www.zakcret.gr",
     "button_bg_color": "#c157b3",
     "display_mode": "minimal",
-    "button_text_color": "#fdf7f7"
+    "button_text_color": "#fdf7f7",
+    "scroll_percent": 10
 }

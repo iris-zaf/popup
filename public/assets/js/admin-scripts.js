@@ -2,6 +2,8 @@ function toggleDelayInput() {
   const trigger = document.getElementById("triggerSelect").value;
   document.getElementById("delayInput").style.display =
     trigger === "delay" ? "block" : "none";
+  document.getElementById("scrollInput").style.display =
+    trigger === "scroll" ? "block" : "none";
 }
 
 function toggleSettingsPanel() {

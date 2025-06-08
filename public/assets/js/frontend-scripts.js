@@ -23,6 +23,12 @@ function closePopup() {
 document.addEventListener("DOMContentLoaded", () => {
   if (!settings.enabled) return;
 
+  // Detect mobile device
+  const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+
+  //  Override trigger on mobile to delay
+  const effectiveTrigger = isMobile ? "delay" : settings.trigger;
+
   const closeBtn = document.getElementById("popup-close");
   const overlay = document.getElementById("popup-overlay");
 
@@ -38,6 +44,21 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("mouseleave", (e) => {
       if (e.clientY < 0) {
         showPopup();
+      }
+    });
+  }
+  if (settings.trigger === "scroll") {
+    const threshold = settings.scroll_percent || 30;
+
+    window.addEventListener("scroll", function onScroll() {
+      const scrollTop = window.scrollY;
+      const docHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const scrolled = (scrollTop / docHeight) * 100;
+
+      if (scrolled >= threshold) {
+        showPopup();
+        window.removeEventListener("scroll", onScroll);
       }
     });
   }
