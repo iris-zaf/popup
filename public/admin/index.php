@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label class="form-label mt-3" title="Select how the popup should be displayed">Display Mode:</label>
                 <select name="display_mode" class="form-select" id="displayModeSelect">
                     <option value="standard" <?= ($settings['display_mode'] ?? '') === 'standard' ? 'selected' : '' ?>>🖼 Standard (image + heading + message + button)</option>
-                    <option value="background" <?= ($settings['display_mode'] ?? '') === 'background' ? 'selected' : '' ?>>🌄 Background Image with Text</option>
+                    <option value="background" <?= ($settings['display_mode'] ?? '') === 'background' ? 'selected' : '' ?>>🌄 Background Image linkable</option>
                     <option value="minimal" <?= ($settings['display_mode'] ?? '') === 'minimal' ? 'selected' : '' ?>>🎯 Background Image + Button only</option>
                 </select>
 
