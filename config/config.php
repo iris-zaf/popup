@@ -1,6 +1,6 @@
 <?php
 
-//need to uncomment on development mode--> require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 //for localhost --> $base = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'];
 //for live:
 $base = 'https://' . $_SERVER['HTTP_HOST'];
