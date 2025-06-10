@@ -19,15 +19,20 @@ RUN apt-get update && apt-get install -y \
     zlib1g-dev \
     libzip-dev \
     && rm -rf /var/lib/apt/lists/* 
-# Enable the OpenSSL PHP extension first, as MongoDB depends on it for TLS
-# The 'config.m4' error suggests it's not finding the source. Let's try rebuilding it.
-# This often works by leveraging the default sources in the PHP image.
-RUN docker-php-ext-install openssl
+
+# Enable the OpenSSL PHP extension by installing it via PECL (more robust for some base images)
+# This explicitly builds and enables the openssl extension if docker-php-ext-install struggles.
+# set -eux; will make the build fail immediately if this command errors.
+RUN set -eux; \
+    pecl install openssl; \
+    docker-php-ext-enable openssl
 
 # Install the MongoDB PHP extension using PECL
 # This step builds the actual MongoDB driver.
-RUN pecl install mongodb \
-    && docker-php-ext-enable mongodb
+# set -eux; will make the build fail immediately if this command errors.
+RUN set -eux; \
+    pecl install mongodb; \
+    docker-php-ext-enable mongodb
 
 # Set working directory inside the container
 WORKDIR /app
