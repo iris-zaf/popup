@@ -3,137 +3,891 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PHP Popup Plugin - Documentation</title>
+    <title>PHP Popup Modal System - Documentation</title>
+    <!-- Bootstrap CSS CDN -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
+      crossorigin="anonymous"
+    />
+    <!-- Font Awesome CDN for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
     />
     <style>
       body {
-        font-family: "Segoe UI", sans-serif;
-        padding: 2rem;
-      }
-      h1,
-      h2,
-      h3 {
-        margin-top: 2rem;
-      }
-      code {
-        background-color: #f4f4f4;
-        padding: 0.2rem 0.5rem;
-        border-radius: 4px;
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        background-color: #f8f9fa; /* Lighter background consistent with Bootstrap */
+        color: #212529; /* Darker text for readability */
       }
       pre {
-        background-color: #f8f9fa;
+        background: #e9ecef; /* Light gray for code blocks */
         padding: 1rem;
-        border-left: 4px solid #0d6efd;
+        border-radius: 0.25rem;
         overflow-x: auto;
+        font-family: "Courier New", Courier, monospace;
+      }
+      code {
+        font-family: "Courier New", Courier, monospace;
+        background: #e9ecef;
+        padding: 0.2rem 0.4rem;
+        border-radius: 0.25rem;
+      }
+      .note {
+        background-color: #fff3cd; /* Bootstrap warning-light */
+        border-left: 5px solid #ffc107; /* Bootstrap warning */
+        padding: 1rem;
+        margin: 1rem 0;
+        border-radius: 0.25rem;
+        color: #664d03; /* Bootstrap warning-dark */
+      }
+      .alert {
+        background-color: #f8d7da; /* Bootstrap danger-light */
+        border-left: 5px solid #dc3545; /* Bootstrap danger */
+        padding: 1rem;
+        margin: 1rem 0;
+        border-radius: 0.25rem;
+        color: #721c24; /* Bootstrap danger-dark */
+      }
+      .icon-padded {
+        margin-right: 0.5rem;
       }
     </style>
   </head>
   <body>
-    <h1>🎉 PHP Exit-Intent Popup Plugin</h1>
-    <p>
-      Thank you for visiting! This plugin allows you to show popups — with full
-      control from an admin panel.
-    </p>
+    <div class="container mt-4 mb-4 p-4 bg-white rounded shadow-sm">
+      <h1 class="text-primary mb-4">
+        <i class="fas fa-cogs icon-padded"></i>PHP Popup Modal System -
+        Documentation
+      </h1>
+      <p class="lead">
+        This documentation provides a comprehensive guide for setting up,
+        configuring, and deploying the PHP Popup Modal System. This system
+        utilizes <strong>MongoDB Atlas</strong> for database storage, offering
+        flexibility and scalability.
+      </p>
 
-    <h2>📁 Folder Structure</h2>
-    <pre><code>popup/
-├── admin/               # Admin panel files
-├── assets/              # CSS and JS
-├── config/              # Settings storage
-├── frontend/            # Public-facing pages
-├── includes/            # Helper functions
-├── uploads/             # Uploaded images
-├── views/               # Popup HTML
-├── index.php            # Optional homepage
-├── README.md
-└── documentation/       # This documentation file
+      <h2 class="text-primary mt-4">
+        <i class="fas fa-rocket icon-padded"></i>1. Project Overview & Quick
+        Start
+      </h2>
+      <p>
+        The PHP Popup Modal System is a customizable web application designed to
+        display popup modals based on various triggers such as delay, scroll
+        percentage, or exit intent. It includes an administrative panel for
+        configuring popup settings, with data securely stored in a MongoDB
+        database.
+      </p>
+      <p>
+        This plugin enables full control over popup display via an
+        administrative interface.
+      </p>
+      <p><strong>Key Technologies Utilized in This Project:</strong></p>
+      <ul class="list-unstyled">
+        <li><i class="fab fa-php text-info icon-padded"></i> PHP 8.3+</li>
+        <li>
+          <i class="fas fa-box-open text-success icon-padded"></i> Composer (PHP
+          Dependency Manager)
+        </li>
+        <li>
+          <i class="fas fa-database text-primary icon-padded"></i> MongoDB PHP
+          Driver
+        </li>
+        <li>
+          <i class="fas fa-cloud text-secondary icon-padded"></i> MongoDB Atlas
+          (Managed Cloud Database)
+        </li>
+        <li>
+          <i class="fas fa-upload text-info icon-padded"></i> Render (Cloud
+          Hosting Platform)
+        </li>
+      </ul>
+
+      <h3 class="text-secondary mt-3">
+        <i class="fas fa-folder icon-padded"></i>1.1. Folder Structure
+      </h3>
+      <p>The project is organized as follows:</p>
+      <pre><code>popup/
+├── admin/               # Administrative panel files
+├── assets/              # CSS and JavaScript assets
+├── config/              # Core PHP configuration (e.g., database connection)
+├── frontend/            # Public-facing demonstration pages
+├── includes/            # Helper functions and common includes
+├── uploads/             # Directory for uploaded images (e.g., for popup content)
+├── views/               # Popup HTML templates
+├── vendor/              # Composer-managed third-party dependencies (DO NOT COMMIT!)
+├── .gitignore           # Specifies files/folders to be excluded from Git version control
+├── composer.json        # Composer project definition file
+├── composer.lock        # Composer exact dependency versions file
+├── index.php            # Optional homepage/entry point
+└── README.md
 </code></pre>
 
-    <h2>🚀 Getting Started</h2>
-    <ol>
-      <li>
-        Upload the entire <code>popup</code> folder to your server
-        (htdocs/public_html).
-      </li>
-      <li>
-        Access the admin panel: <br />
-        <code>https://popup-im2m.onrender.com</code>
-      </li>
-      <li>
-        Configure the popup via UI (text, image, trigger, target page, etc.).
-      </li>
-      <li>
-        Visit the frontend demo:
-        <ul>
-          <li><code>https://popup-im2m.onrender.com/admin/index.php</code></li>
-          <li>
-            <code
-              >https://popup-im2m.onrender.com/frontend/index.php?page=about</code
+      <h3 class="text-secondary mt-3">
+        <i class="fas fa-play-circle icon-padded"></i>1.2. Quick Start Guide
+        (Basic Local Usage)
+      </h3>
+      <p>
+        For initial local setup of the plugin, follow these fundamental steps.
+        Refer to subsequent sections for detailed configuration.
+      </p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">
+          <strong>Upload the Folder:</strong> Place the entire
+          <code>popup</code> directory into your web server's document root
+          (e.g., <code>htdocs/</code>, <code>public_html/</code>, or your PHP
+          development server's root).
+        </li>
+        <li class="list-group-item">
+          <strong>Install PHP Dependencies:</strong> Open your terminal within
+          the <code>popup</code> directory and execute:
+          <pre><code class="language-bash">composer install</code></pre>
+          <div class="note mt-2">
+            <i class="fas fa-info-circle icon-padded"></i
+            ><strong>Note:</strong> Ensure PHP 8.3+ and the
+            <code>php_mongodb.dll</code> extension are installed and enabled
+            (refer to Section 2.1) prior to running Composer.
+          </div>
+        </li>
+        <li class="list-group-item">
+          <strong>MongoDB Atlas Setup (Brief):</strong>
+          <ul>
+            <li>
+              Create a free
+              <a href="https://cloud.mongodb.com/" target="_blank"
+                >MongoDB Atlas</a
+              >
+              M0 cluster (refer to Section 3.1).
+            </li>
+            <li>
+              Create a Database User (Section 3.2) and **securely record the
+              generated password.**
+            </li>
+            <li>
+              Add your **current local IP address** to the Network Access
+              whitelist (Section 3.3).
+            </li>
+            <li>
+              Obtain your MongoDB Atlas connection string (Section 3.4) and
+              replace the <code>&lt;username&gt;</code> and
+              <code>&lt;password&gt;</code> placeholders with your actual
+              credentials.
+            </li>
+          </ul>
+        </li>
+        <li class="list-group-item">
+          <strong>Configure Database Connection:</strong> Open
+          <code>config/config.php</code>.
+          <ul>
+            <li>
+              Locate the <code>$mongoUri</code> variable. For local testing,
+              **uncomment the hardcoded string** and insert your full MongoDB
+              Atlas connection string (with actual username and password).
+            </li>
+            <li>
+              Modify <code>'your_demo_database_name'</code> to your preferred
+              database name.
+            </li>
+          </ul>
+        </li>
+        <li class="list-group-item">
+          <strong>Access the Admin Panel:</strong> Navigate to your local admin
+          panel URL in your web browser (e.g.,
+          <code>http://localhost/popup/admin/</code> or
+          <code>http://localhost:8000/admin/</code>).
+        </li>
+        <li class="list-group-item">
+          <strong>Configure Popup:</strong> Utilize the admin panel user
+          interface to define popup content, triggers, and display settings.
+          These settings will be persisted in MongoDB Atlas.
+        </li>
+        <li class="list-group-item">
+          <strong>Visit Frontend Demo:</strong> Access your frontend
+          demonstration URL (e.g.,
+          <code>http://localhost/popup/frontend/index.php</code> or
+          <code>http://localhost:8000/frontend/index.php</code>) to observe the
+          popup functionality.
+        </li>
+      </ol>
+
+      <h2 class="text-primary mt-4">
+        <i class="fas fa-desktop icon-padded"></i>2. Local Development Setup
+        (Detailed)
+      </h2>
+      <p>
+        For a thorough setup of this system in your local development
+        environment, follow these detailed instructions:
+      </p>
+
+      <h3 class="text-secondary mt-3">
+        <i class="fas fa-tools icon-padded"></i>2.1. Prerequisites (Essential
+        Tools)
+      </h3>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <i class="fas fa-check-circle text-success icon-padded"></i
+          ><strong>PHP 8.3 or later:</strong> Ensure PHP is properly installed
+          and configured on your operating system (e.g., through XAMPP, WAMP, or
+          a direct PHP installation).
+        </li>
+        <li class="list-group-item">
+          <i class="fas fa-check-circle text-success icon-padded"></i
+          ><strong>Composer:</strong> The standard dependency manager for PHP
+          projects. Download it from:
+          <a href="https://getcomposer.org/download/" target="_blank"
+            >Composer Official Download</a
+          >.
+        </li>
+        <li class="list-group-item">
+          <i class="fas fa-check-circle text-success icon-padded"></i
+          ><strong>MongoDB PHP Driver (<code>ext-mongodb</code> DLL):</strong>
+          This is a compiled PHP extension required for MongoDB connectivity.
+          <ol class="list-group list-group-numbered mt-2">
+            <li class="list-group-item">
+              Visit the PECL website for the MongoDB extension:
+              <a href="https://pecl.php.net/package/mongodb" target="_blank"
+                >pecl.php.net/package/mongodb</a
+              >.
+            </li>
+            <li class="list-group-item">
+              Download the
+              <strong>latest stable 64-bit TS (Thread Safe) version</strong> of
+              the <code>mongodb</code> extension that is compatible with your
+              PHP 8.3 installation (e.g., a file named similar to
+              <code>php_mongodb-2.x.x-8.3-ts-vs16-x64.zip</code>).
+            </li>
+            <li class="list-group-item">
+              Extract the downloaded ZIP file and copy
+              <code>php_mongodb.dll</code> into your PHP's extensions directory
+              (e.g., <code>C:\php8\ext\</code>).
+            </li>
+            <li class="list-group-item">
+              Open your <code>php.ini</code> configuration file (e.g.,
+              <code>C:\php8\php.ini</code>).
+            </li>
+            <li class="list-group-item">
+              Add or uncomment the following line in <code>php.ini</code> to
+              enable the extension:
+              <code><strong>extension=php_mongodb.dll</strong></code>
+            </li>
+            <li class="list-group-item">
+              <strong
+                ><i class="fas fa-save icon-padded"></i>Save the
+                <code>php.ini</code> file and then restart your web server
+                (Apache/Nginx) or PHP development server for the changes to take
+                effect.</strong
+              >
+            </li>
+            <li class="list-group-item">
+              Confirm the extension is loaded by reviewing your
+              <code>phpinfo()</code> output (search for "mongodb").
+            </li>
+          </ol>
+        </li>
+        <li class="list-group-item">
+          <i class="fas fa-check-circle text-success icon-padded"></i
+          ><strong>Git:</strong> A version control system essential for cloning
+          the project repository.
+        </li>
+      </ul>
+
+      <h3 class="text-secondary mt-3">
+        <i class="fas fa-code-branch icon-padded"></i>2.2. Obtain the Code
+        (Cloning & Dependencies)
+      </h3>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">
+          Clone the repository to your local machine:
+          <pre><code class="language-bash">git clone [YOUR_REPOSITORY_URL]</code></pre>
+        </li>
+        <li class="list-group-item">
+          Navigate into the project's root directory:
+          <pre><code class="language-bash">cd popup</code></pre>
+        </li>
+        <li class="list-group-item">
+          Install PHP Composer dependencies:
+          <pre><code class="language-bash">composer install</code></pre>
+          <div class="note mt-2">
+            <i class="fas fa-info-circle icon-padded"></i
+            ><strong>Note:</strong> If Composer reports errors regarding a
+            missing <code>ext-mongodb</code> extension, ensure you have
+            successfully completed the prerequisite steps in Section 2.1 to
+            install the DLL and restarted your server.
+          </div>
+        </li>
+      </ol>
+
+      <h2 class="text-primary mt-4">
+        <i class="fas fa-cloud-database icon-padded"></i>3. MongoDB Atlas
+        Database Setup (Free Tier)
+      </h2>
+      <p>
+        This project utilizes MongoDB Atlas for its cloud-hosted database. A
+        free (M0 Sandbox) cluster can be provisioned for development and testing
+        purposes.
+      </p>
+
+      <h3 class="text-secondary mt-3">
+        <i class="fas fa-globe icon-padded"></i>3.1. Create a MongoDB Atlas
+        Account & Cluster
+      </h3>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">
+          Visit
+          <a href="https://cloud.mongodb.com/" target="_blank"
+            >cloud.mongodb.com</a
+          >
+          to sign up or log in.
+        </li>
+        <li class="list-group-item">
+          Create a new project (if applicable, to organize your clusters).
+        </li>
+        <li class="list-group-item">
+          On the "Build a Database" page, select the
+          <strong>"Shared"</strong> option, corresponding to the M0 Free Tier.
+        </li>
+        <li class="list-group-item">
+          Choose a <strong>Cloud Provider</strong> and a
+          <strong>Region</strong> that is geographically proximate to your
+          intended Render application deployment for optimal performance (e.g.,
+          <code>AWS / N. Virginia (us-east-1)</code>).
+        </li>
+        <li class="list-group-item">
+          Assign a descriptive name to your cluster (e.g.,
+          <code>popup-db-cluster</code>).
+        </li>
+        <li class="list-group-item">
+          Click <strong>"Create Cluster"</strong> and await its provisioning,
+          which typically takes 3-7 minutes.
+        </li>
+      </ol>
+
+      <h3 class="text-secondary mt-3">
+        <i class="fas fa-user-lock icon-padded"></i>3.2. Create a Database User
+      </h3>
+      <p>
+        A dedicated database user must be created for your PHP application to
+        establish a secure connection to the database.
+      </p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">
+          Within the Atlas dashboard, navigate to
+          <strong>"Database Access"</strong> under the
+          <strong>"Security"</strong> section.
+        </li>
+        <li class="list-group-item">
+          Click <strong>"+ Add New Database User"</strong>.
+        </li>
+        <li class="list-group-item">
+          Select <strong>"Password"</strong> as the authentication method.
+        </li>
+        <li class="list-group-item">
+          Enter a <strong>Username</strong> (e.g., <code>phpuser</code>) and
+          utilize the <strong>"Autogenerate Secure Password"</strong> feature.
+          <div class="alert mt-2">
+            <i class="fas fa-exclamation-triangle icon-padded"></i
+            ><strong
+              >CRITICAL: Immediately copy and securely store this autogenerated
+              password. It is essential for your application's database
+              connection.</strong
             >
-          </li>
-        </ul>
-      </li>
-    </ol>
+          </div>
+        </li>
+        <li class="list-group-item">
+          For "Database User Privileges", select
+          <strong>"Read and write to any database"</strong> for typical
+          application access.
+        </li>
+        <li class="list-group-item">Click <strong>"Add User"</strong>.</li>
+      </ol>
 
-    <h2>⚙️ Admin Settings</h2>
-    <ul>
-      <li><strong>Enable/Disable:</strong> Show/hide the popup globally.</li>
-      <li><strong>Trigger:</strong> Exit intent or time delay.</li>
-      <li><strong>Target Page:</strong> Show popup on a specific page.</li>
-      <li><strong>Image, Text, CTA:</strong> Fully customizable content.</li>
-      <li>
-        <strong>Cookie Duration:</strong> Control how often popup appears.
-      </li>
-    </ul>
+      <h3 class="text-secondary mt-3">
+        <i class="fas fa-shield-alt icon-padded"></i>3.3. Configure Network
+        Access (IP Whitelisting)
+      </h3>
+      <p>
+        You must configure MongoDB Atlas to allow inbound connections only from
+        specified IP addresses.
+      </p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">
+          In the Atlas dashboard, navigate to
+          <strong>"Network Access"</strong> under the
+          <strong>"Security"</strong> section.
+        </li>
+        <li class="list-group-item">
+          Click <strong>"Add IP Address"</strong>.
+        </li>
+        <li class="list-group-item">
+          <strong>For Local Development (Your Current IP):</strong>
+          <ul class="list-group list-group-flush mt-2">
+            <li class="list-group-item">
+              <i class="fas fa-home icon-padded"></i>Click
+              <strong>"Add Current IP Address"</strong> to automatically detect
+              and add your public IP.
+            </li>
+            <li class="list-group-item">
+              Provide a brief description (e.g., "Development PC IP").
+            </li>
+            <li class="list-group-item">Click <strong>"Confirm"</strong>.</li>
+          </ul>
+        </li>
+        <li class="list-group-item">
+          <strong>For Render Deployment:</strong> Render's outbound IP addresses
+          will be added later (refer to Section 5.3).
+        </li>
+        <li class="list-group-item">
+          Click <strong>"Finish and Close"</strong>.
+        </li>
+      </ol>
 
-    <h2>💡 JSON Settings File</h2>
-    <p>Stored in <code>/config/settings.json</code>. Example:</p>
-    <pre><code>{
-  "enabled": true,
-  "trigger": "exit-intent",
-  "cookie_duration": 3,
-  "heading": "Don't Miss Out!",
-  "message": "Get 20% off if you stay!",
-  "target_page": "home",
-  "image_url": "popup_abc123.jpg",
-  "button_text": "Shop Now",
-  "button_link": "https://yoursite.com",
-  "button_bg_color": "#0d6efd",
-  "button_text_color": "#ffffff"
-}</code></pre>
+      <h3 class="text-secondary mt-3">
+        <i class="fas fa-link icon-padded"></i>3.4. Obtain the Connection String
+      </h3>
+      <p>
+        Once your cluster's status indicates "Available", retrieve the necessary
+        connection string for your application.
+      </p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">
+          In the Atlas dashboard, proceed to
+          <strong>"Database Deployments" > "Clusters"</strong>.
+        </li>
+        <li class="list-group-item">
+          Click the <strong>"Connect"</strong> button adjacent to your cluster.
+        </li>
+        <li class="list-group-item">
+          Select <strong>"Connect your application"</strong> from the dialog.
+        </li>
+        <li class="list-group-item">
+          For "Driver", choose <strong>"PHP"</strong>. For "Version", select
+          <strong>"1.11 + mongodb-1.10 or later"</strong>.
+        </li>
+        <li class="list-group-item">
+          <strong>Copy the displayed connection string.</strong> It will be
+          formatted as:
+          <pre><code>mongodb+srv://&lt;username&gt;:&lt;password&gt;@yourcluster.abcde.mongodb.net/?retryWrites=true&amp;w=majority</code></pre>
+        </li>
+        <li class="list-group-item">
+          <div class="alert mt-2">
+            <i class="fas fa-exclamation-triangle icon-padded"></i
+            ><strong
+              >CRITICAL: In the copied string, replace
+              <code>&lt;username&gt;</code> with the actual database username
+              (e.g., <code>phpuser</code>) and
+              <code>&lt;password&gt;</code> with the securely stored password
+              from Section 3.2. Ensure no angle brackets (&lt; &gt;)
+              remain.</strong
+            >
+          </div>
+        </li>
+        <li class="list-group-item">
+          Save this complete and corrected connection string. It will be used in
+          <code>config.php</code> and configured on Render.
+        </li>
+      </ol>
 
-    <h2>📸 Screenshots</h2>
-    <ul>
-      <li>Admin Panel</li>
-      <li>Popup Preview</li>
-      <li>Frontend Integration</li>
-    </ul>
+      <h2 class="text-primary mt-4">
+        <i class="fas fa-file-alt icon-padded"></i>4. Application Configuration
+        (<code>config.php</code>)
+      </h2>
+      <p>
+        The <code>config.php</code> file manages the database connection logic.
+        It requires modification to integrate with MongoDB.
+      </p>
+      <div class="alert">
+        <i class="fas fa-exclamation-triangle icon-padded"></i
+        ><strong
+          >IMPORTANT: The <code>$mongoUri</code> variable in
+          <code>config.php</code> must be adjusted based on whether you are
+          developing locally or deploying to Render.</strong
+        >
+      </div>
+      <pre><code class="language-php">
+&lt;?php
+require __DIR__ . '/../vendor/autoload.php'; // Essential for Composer-managed dependencies
 
-    <h2>❓ FAQ</h2>
-    <p>
-      <strong>Q:</strong> Can I use this on any PHP site?<br />
-      <strong>A:</strong> Yes. It’s pure PHP with no framework required.
-    </p>
+// Base URL definitions for localhost and live environments
+$base = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'];
+define('PLUGIN_ROOT', $base . '/');
+define('PLUGIN_ASSETS', PLUGIN_ROOT . 'assets/');
+define('PLUGIN_UPLOADS', PLUGIN_ROOT . 'uploads/images/popup/');
 
-    <p>
-      <strong>Q:</strong> How is the popup triggered?<br />
-      <strong>A:</strong> On exit intent,after a configurable delay or on
-      scroll. For mobile the only option available for now is delay in seconds.
-    </p>
+// MongoDB Atlas connection settings
+// --- FOR LOCAL TESTING ONLY ---
+// Paste your full MongoDB Atlas Connection String here (with actual password).
+// COMMENT THIS LINE OUT BEFORE COMMITTING FOR RENDER DEPLOYMENT.
+$mongoUri = 'mongodb+srv://[YOUR_DB_USERNAME]:[YOUR_DB_PASSWORD]@[YOUR_MONGODB_ATLAS_CLUSTER_HOSTNAME]/?retryWrites=true&amp;w=majority';
+// -----------------------------
 
-    <p>
-      <strong>Q:</strong> Where are uploaded images stored?<br />
-      <strong>A:</strong> In <code>/uploads/images/popup/</code>.
-    </p>
+// --- FOR RENDER DEPLOYMENT ---
+// UNCOMMENT THIS LINE BEFORE COMMITTING FOR RENDER DEPLOYMENT.
+// $mongoUri = getenv('MONGO_URI');
+// -----------------------------
 
-    <h2>🙌 Author & Support</h2>
-    <p>Made with ❤️ by <strong>Iris Kalogirou</strong></p>
-    <p>
-      For support, contact:
-      <a href="mailto:iriskalogirou1@gmail.com">iriskalogirou1@gmail.com</a>
-    </p>
+try {
+    $mongoClient = new MongoDB\Client($mongoUri);
+    // Select your desired database name. This database will be created upon the first write operation.
+    $mongoDb = $mongoClient-&gt;selectDatabase('your_demo_database_name'); // &lt;&lt;&lt; CHANGE THIS to your desired database name (e.g., 'popup_db')
+
+    // Optional: Uncomment the line below for connection verification during local testing
+    // echo "Successfully connected to MongoDB Atlas locally!";
+
+} catch (MongoDB\Driver\Exception\Exception $e) {
+    die("MongoDB Connection failed: " . $e-&gt;getMessage());
+}
+?&gt;
+        </code></pre>
+      <p>
+        Additionally, ensure your <code>functions.php</code> file is updated to
+        utilize the <code>$mongoDb</code> global variable for all database
+        operations (e.g.,
+        <code
+          >$mongoDb-&gt;selectCollection('popup_settings')-&gt;findOne()</code
+        >), replacing any previous database interaction logic.
+      </p>
+
+      <h2 class="text-primary mt-4">
+        <i class="fas fa-cloud-upload-alt icon-padded"></i>5. Deployment to
+        Render
+      </h2>
+
+      <h3 class="text-secondary mt-3">
+        <i class="fas fa-filter icon-padded"></i>5.1. Update
+        <code>.gitignore</code> (Repository Cleanliness)
+      </h3>
+      <p>
+        It is crucial to maintain a clean Git repository by preventing the
+        commitment of unnecessary files. Ensure your
+        <code>.gitignore</code> file, located in your project's root directory,
+        includes the following:
+      </p>
+      <pre><code># Composer dependencies - These are generated and should not be version controlled
+/vendor/
+
+# Environment variables - Contains sensitive information; exclude from repository
+.env
+
+# IDE and OS specific files - Local configurations and temporary files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Log files - Dynamically generated and temporary
+*.log
+        </code></pre>
+      <p>Commit this <code>.gitignore</code> file to your repository.</p>
+
+      <h3 class="text-secondary mt-3">
+        <i class="fas fa-code icon-padded"></i>5.2. Configure
+        <code>config.php</code> for Render Deployment
+      </h3>
+      <p>
+        Prior to committing for Render deployment, adjust your
+        <code>config.php</code> file as described in Section 4:
+        <strong>uncomment</strong> the line
+        <code>$mongoUri = getenv('MONGO_URI');</code> and
+        <strong>comment out</strong> the line containing the hardcoded
+        <code>$mongoUri</code> value.
+      </p>
+      <p>
+        <strong
+          ><i class="fas fa-git-alt icon-padded"></i>Commit these changes to
+          your Git repository.</strong
+        >
+        Render will automatically detect this commit and initiate a new
+        deployment.
+      </p>
+
+      <h3 class="text-secondary mt-3">
+        <i class="fas fa-key icon-padded"></i>5.3. Set Environment Variable on
+        Render
+      </h3>
+      <p>
+        This step involves securely providing your MongoDB connection string to
+        your deployed application without exposing it in your codebase.
+      </p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">
+          Access your Render Dashboard and navigate to your PHP web service
+          (e.g., <code>popup</code>).
+        </li>
+        <li class="list-group-item">
+          Select the <strong>"Environment"</strong> tab from the left sidebar.
+        </li>
+        <li class="list-group-item">
+          Click <strong>"Add Environment Variable"</strong>.
+        </li>
+        <li class="list-group-item">
+          Define the variable:
+          <ul class="list-group list-group-flush mt-2">
+            <li class="list-group-item">
+              <i class="fas fa-fingerprint icon-padded"></i
+              ><strong>Key:</strong> <code>MONGO_URI</code>
+            </li>
+            <li class="list-group-item">
+              <i class="fas fa-clipboard icon-padded"></i
+              ><strong>Value:</strong> Paste the full, corrected MongoDB Atlas
+              connection string (e.g.,
+              <code
+                >mongodb+srv://[YOUR_DB_USERNAME]:[YOUR_DB_PASSWORD]@[YOUR_MONGODB_ATLAS_CLUSTER_HOSTNAME]/?retryWrites=true&amp;w=majority</code
+              >).
+            </li>
+          </ul>
+        </li>
+        <li class="list-group-item">
+          Click <strong>"Save Changes"</strong>. Render will then initiate a
+          redeployment.
+        </li>
+      </ol>
+
+      <h3 class="text-secondary mt-3">
+        <i class="fas fa-network-wired icon-padded"></i>5.4. Whitelist Render's
+        Outbound IPs in MongoDB Atlas
+      </h3>
+      <p>
+        This is a critical security measure, ensuring only Render's servers are
+        authorized to connect to your MongoDB Atlas database.
+      </p>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item">
+          Return to your Render service dashboard.
+        </li>
+        <li class="list-group-item">
+          Click the <strong>"Connect"</strong> button (located in the top-right
+          corner).
+        </li>
+        <li class="list-group-item">
+          Navigate to the <strong>"Outbound"</strong> tab.
+        </li>
+        <li class="list-group-item">
+          <strong
+            ><i class="fas fa-copy icon-padded"></i>Copy all IP addresses
+            listed.</strong
+          >
+        </li>
+        <li class="list-group-item">
+          Proceed to your MongoDB Atlas dashboard:
+          <strong>"Security" > "Network Access"</strong>.
+        </li>
+        <li class="list-group-item">
+          Click <strong>"Add IP Address"</strong>.
+        </li>
+        <li class="list-group-item">
+          For <strong>each IP address copied from Render</strong>, paste it into
+          the IP Address field and append <code>/32</code> (e.g.,
+          <code>X.X.X.X/32</code>). Add a descriptive label like "Render
+          Outbound".
+        </li>
+        <li class="list-group-item">
+          Click <strong>"Confirm"</strong> or "Add Entry" for each added IP.
+        </li>
+        <li class="list-group-item">
+          Click <strong>"Finish and Close"</strong>.
+        </li>
+      </ol>
+
+      <h3 class="text-secondary mt-3">
+        <i class="fas fa-chart-line icon-padded"></i>5.5. Monitor Deployment and
+        Test
+      </h3>
+      <p>
+        Observe the deployment progress in Render's <strong>"Events"</strong> or
+        <strong>"Logs"</strong> tab. Once the deployment status indicates
+        "Live", access your Render application's URL (e.g.,
+        <code>https://your-service-name.onrender.com/</code>) to verify the
+        MongoDB connection and application functionality in the live
+        environment.
+      </p>
+
+      <h2 class="text-primary mt-4">
+        <i class="fas fa-bug icon-padded"></i>6. Troubleshooting Common Issues
+      </h2>
+      <p>This section outlines common issues and their respective solutions:</p>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <i class="fas fa-exclamation-circle text-danger icon-padded"></i
+          ><strong
+            ><code>PHP Fatal error: Class 'MongoDB\Client' not found</code
+            >:</strong
+          >
+          <ul class="list-group list-group-flush mt-2">
+            <li class="list-group-item">
+              <i class="fas fa-wrench icon-padded"></i>Ensure
+              <code>composer install</code> has been executed locally.
+            </li>
+            <li class="list-group-item">
+              <i class="fas fa-wrench icon-padded"></i>Verify that the path in
+              <code>require __DIR__ . '/../vendor/autoload.php';</code> within
+              <code>config.php</code> correctly points to Composer's autoloader.
+            </li>
+            <li class="list-group-item">
+              <i class="fas fa-wrench icon-padded"></i>Confirm
+              <code>php_mongodb.dll</code> is correctly installed and enabled in
+              <code>php.ini</code> (check <code>phpinfo()</code> for "mongodb"
+              section).
+            </li>
+          </ul>
+        </li>
+        <li class="list-group-item">
+          <i class="fas fa-exclamation-circle text-danger icon-padded"></i
+          ><strong
+            ><code
+              >MongoDB Connection failed: Failed to look up SRV record...</code
+            >:</strong
+          >
+          <ul class="list-group list-group-flush mt-2">
+            <li class="list-group-item">
+              <i class="fas fa-ban icon-padded"></i>If encountered locally:
+              Temporarily disable any active VPN.
+            </li>
+            <li class="list-group-item">
+              <i class="fas fa-globe icon-padded"></i>If encountered locally:
+              Configure your computer's DNS servers to use reliable public DNS
+              (e.g., Google DNS: 8.8.8.8, 8.8.4.4 or Cloudflare: 1.1.1.1,
+              1.0.0.1).
+            </li>
+            <li class="list-group-item">
+              <i class="fas fa-redo icon-padded"></i>If encountered locally:
+              Flush DNS cache (<code>ipconfig /flushdns</code>) and restart your
+              PC/server.
+            </li>
+          </ul>
+        </li>
+        <li class="list-group-item">
+          <i class="fas fa-exclamation-circle text-danger icon-padded"></i
+          ><strong
+            ><code
+              >TLS handshake failed: error:0A000438:SSL routines::tlsv1 alert
+              internal error...</code
+            >:</strong
+          >
+          <ul class="list-group list-group-flush mt-2">
+            <li class="list-group-item">
+              <i class="fas fa-map-marker-alt icon-padded"></i
+              ><strong>Most common:</strong> Ensure your
+              <strong
+                >current public IP address is accurately whitelisted</strong
+              >
+              in MongoDB Atlas Network Access. Dynamic IPs may change.
+            </li>
+            <li class="list-group-item">
+              <i class="fas fa-shield-alt icon-padded"></i>Temporarily disable
+              any **third-party antivirus/internet security software's web
+              protection or firewall features** (beyond Windows Defender, if
+              applicable). Re-enable after testing.
+            </li>
+            <li class="list-group-item">
+              <i class="fas fa-clock icon-padded"></i>Confirm that your
+              computer's system time is accurately synchronized.
+            </li>
+            <li class="list-group-item">
+              <i class="fas fa-lock icon-padded"></i>Verify
+              <code>php_openssl.dll</code> is enabled in <code>php.ini</code>.
+            </li>
+          </ul>
+        </li>
+        <li class="list-group-item">
+          <i class="fas fa-exclamation-triangle text-warning icon-padded"></i
+          ><strong>VS Code displays red underlines on MongoDB classes:</strong>
+          <ul class="list-group list-group-flush mt-2">
+            <li class="list-group-item">
+              <i class="fas fa-save icon-padded"></i>Save all modified files
+              (<code>Ctrl+S</code>).
+            </li>
+            <li class="list-group-item">
+              <i class="fas fa-sync-alt icon-padded"></i>Reload the VS Code
+              window (via Command Palette: <code>Ctrl+Shift+P</code> then
+              "Reload Window").
+            </li>
+            <li class="list-group-item">
+              <i class="fas fa-power-off icon-padded"></i>Fully close and reopen
+              VS Code. This is typically a linter display anomaly and does not
+              affect code execution.
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <h2 class="text-primary mt-4">
+        <i class="fas fa-cog icon-padded"></i>7. Admin Settings Details
+      </h2>
+      <p>
+        The administrative panel provides comprehensive controls for the popup
+        modal system:
+      </p>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <strong>Enable/Disable:</strong> Toggles the global visibility of the
+          popup.
+        </li>
+        <li class="list-group-item">
+          <strong>Trigger:</strong> Configures how the popup is activated (e.g.,
+          exit intent, time delay).
+        </li>
+        <li class="list-group-item">
+          <strong>Target Page:</strong> Specifies whether the popup appears on
+          all pages or a defined specific page.
+        </li>
+        <li class="list-group-item">
+          <strong>Image, Text, CTA:</strong> Allows full customization of the
+          popup's content, including images, main text, and Call-to-Action
+          elements.
+        </li>
+        <li class="list-group-item">
+          <strong>Cookie Duration:</strong> Controls the frequency at which the
+          popup reappears for returning users.
+        </li>
+        <li class="list-group-item">
+          <strong>Note on Mobile Triggers:</strong> For mobile devices,
+          currently only the 'delay in seconds' option is available as a
+          trigger.
+        </li>
+      </ul>
+
+      <h2 class="text-primary mt-4">
+        <i class="fas fa-question-circle icon-padded"></i>8. Frequently Asked
+        Questions (FAQ)
+      </h2>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <strong>Q:</strong> Can this plugin be integrated with any PHP
+          site?<br />
+          <strong>A:</strong> Yes, this plugin is developed in pure PHP and does
+          not require any specific framework, making it highly portable.
+        </li>
+        <li class="list-group-item">
+          <strong>Q:</strong> How is the popup triggered?<br />
+          <strong>A:</strong> Popups can be triggered by exit intent, a
+          configurable time delay, or based on scroll percentage. For mobile
+          devices, the only currently supported trigger is a configurable time
+          delay in seconds.
+        </li>
+        <li class="list-group-item">
+          <strong>Q:</strong> Where are uploaded images stored?<br />
+          <strong>A:</strong> Uploaded images for popup content are stored in
+          the <code>/uploads/images/popup/</code> directory within the project
+          structure.
+        </li>
+      </ul>
+
+      <h2 class="text-primary mt-4">
+        <i class="fas fa-user-circle icon-padded"></i>9. Author & Support
+      </h2>
+      <p>This plugin was developed by <strong>Iris Kalogirou</strong>.</p>
+      <p>
+        For technical support or inquiries, please contact:
+        <a href="mailto:iriskalogirou1@gmail.com">iriskalogirou1@gmail.com</a>
+      </p>
+    </div>
+    <!-- Bootstrap JS CDN (optional, but good practice for full Bootstrap functionality) -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

@@ -1,11 +1,46 @@
 <?php
-function get_popup_settings() {
-    $path = __DIR__ . '/../config/settings.json';
-    if (!file_exists($path)) return [];
-    return json_decode(file_get_contents($path), true);
+require_once __DIR__ . '/../config/config.php';
+
+function get_popup_settings()
+{
+    global $mongoDb;
+    $collection = $mongoDb->selectCollection('popup_settings');
+
+    $settings = $collection->findOne(['_id' => 'main_settings']);
+
+    return $settings ? (array) $settings : [];
 }
 
-function save_popup_settings($data) {
-    $path = __DIR__ . '/../config/settings.json';
-    file_put_contents($path, json_encode($data, JSON_PRETTY_PRINT));
+function save_popup_settings($data)
+{
+    global $mongoDb;
+
+    $collection = $mongoDb->selectCollection('popup_settings');
+
+    // Prepare the document with default values
+    $document = [
+        '_id' => 'main_settings',
+        'enabled' => $data['enabled'] ?? false,
+        'trigger' => $data['trigger'] ?? null,
+        'delay' => $data['delay'] ?? null,
+        'scroll_percent' => $data['scroll_percent'] ?? null,
+        'cookie_duration' => $data['cookie_duration'] ?? 1,
+        'heading' => $data['heading'] ?? '',
+        'message' => $data['message'] ?? '',
+        'target_page' => $data['target_page'] ?? 'all',
+        'image_url' => $data['image_url'] ?? '',
+        'button_text' => $data['button_text'] ?? '',
+        'button_link' => $data['button_link'] ?? '',
+        'button_bg_color' => $data['button_bg_color'] ?? '#007bff',
+        'button_text_color' => $data['button_text_color'] ?? '#ffffff',
+        'display_mode' => $data['display_mode'] ?? 'standard'
+    ];
+
+    // Use updateOne with upsert to create/update the single settings document.
+    // If a document with _id 'main_settings' exists, it updates it. If not, it inserts it.
+    $collection->updateOne(
+        ['_id' => 'main_settings'],
+        ['$set' => $document],
+        ['upsert' => true]
+    );
 }
