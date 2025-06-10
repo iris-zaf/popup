@@ -15,12 +15,10 @@ RUN apt-get update && apt-get install -y \
     unzip \
     autoconf \
     openssl \
-    && rm -rf /var/lib/apt/lists/* # Clean up apt cache to keep image small
-
+    && rm -rf /var/lib/apt/lists/* 
 # Enable the OpenSSL PHP extension first, as MongoDB depends on it for TLS
 # docker-php-ext-install handles compilation and enabling of core PHP extensions
-RUN docker-php-ext-install -j$(nproc) openssl
-
+RUN docker-php-ext-install openssl 
 # Install the MongoDB PHP extension using PECL
 # This step builds the actual MongoDB driver.
 # We'll explicitly add LDFLAGS to ensure it links against system OpenSSL if needed.
