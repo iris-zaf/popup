@@ -8,6 +8,7 @@ FROM php:8.3-fpm
 # - unzip: for extracting archives
 # - autoconf: often necessary for PECL extensions to build correctly
 # - openssl: the actual OpenSSL utility (ensures core OpenSSL is present)
+# - zlib1g-dev & libzip-dev: Common dependencies for many PHP extensions including OpenSSL, sometimes missing
 RUN apt-get update && apt-get install -y \
     build-essential \
     libssl-dev \
@@ -15,13 +16,16 @@ RUN apt-get update && apt-get install -y \
     unzip \
     autoconf \
     openssl \
+    zlib1g-dev \
+    libzip-dev \
     && rm -rf /var/lib/apt/lists/* 
 # Enable the OpenSSL PHP extension first, as MongoDB depends on it for TLS
-# docker-php-ext-install handles compilation and enabling of core PHP extensions
-RUN docker-php-ext-install openssl 
+# The 'config.m4' error suggests it's not finding the source. Let's try rebuilding it.
+# This often works by leveraging the default sources in the PHP image.
+RUN docker-php-ext-install openssl
+
 # Install the MongoDB PHP extension using PECL
 # This step builds the actual MongoDB driver.
-# We'll explicitly add LDFLAGS to ensure it links against system OpenSSL if needed.
 RUN pecl install mongodb \
     && docker-php-ext-enable mongodb
 
