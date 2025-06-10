@@ -15,17 +15,12 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     unzip \
     autoconf \
-    openssl \
     zlib1g-dev \
     libzip-dev \
     && rm -rf /var/lib/apt/lists/* 
 
-# Enable the OpenSSL PHP extension by installing it via PECL (more robust for some base images)
-# This explicitly builds and enables the openssl extension if docker-php-ext-install struggles.
-# set -eux; will make the build fail immediately if this command errors.
-RUN set -eux; \
-    pecl install openssl; \
-    docker-php-ext-enable openssl
+
+RUN docker-php-ext-install openssl
 
 # Install the MongoDB PHP extension using PECL
 # This step builds the actual MongoDB driver.
