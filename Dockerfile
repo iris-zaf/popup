@@ -12,15 +12,6 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Step 2: Prepare PHP source
-RUN docker-php-source extract
-
-# Step 3: Install PHP OpenSSL extension
-RUN docker-php-ext-install openssl
-
-# Step 4: Clean up PHP source
-RUN docker-php-source delete
-
 # Install the MongoDB PHP extension using PECL
 RUN set -eux; \
     pecl install mongodb; \
