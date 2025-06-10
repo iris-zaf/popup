@@ -1,7 +1,7 @@
 # Use PHP 8.3-FPM based on Debian
 FROM php:8.3-fpm
 
-# Install system dependencies required for compilation and PHP extensions
+# Step 1: Install system packages
 RUN apt-get update && apt-get install -y \
     build-essential \
     libssl-dev \
@@ -10,10 +10,16 @@ RUN apt-get update && apt-get install -y \
     autoconf \
     zlib1g-dev \
     libzip-dev \
-    && docker-php-source extract \
-    && docker-php-ext-install openssl \
-    && docker-php-source delete \
     && rm -rf /var/lib/apt/lists/*
+
+# Step 2: Prepare PHP source
+RUN docker-php-source extract
+
+# Step 3: Install PHP OpenSSL extension
+RUN docker-php-ext-install openssl
+
+# Step 4: Clean up PHP source
+RUN docker-php-source delete
 
 # Install the MongoDB PHP extension using PECL
 RUN set -eux; \
@@ -37,8 +43,8 @@ RUN mkdir -p /app/public/uploads/images/popup \
     && chmod -R 777 /app/public/uploads \
     && chmod -R 777 /app/config
 
-# Expose the port your PHP built-in server will listen on
-EXPOSE 10000
+# Expose the port Render expects
+EXPOSE 8080
 
-# Define the command to run your PHP built-in web server
-CMD ["php", "-S", "0.0.0.0:10000", "-t", "public"]
+# Start PHP built-in server using the dynamic Render PORT
+CMD ["php", "-S", "0.0.0.0:${PORT:-8080}", "-t", "public"]
