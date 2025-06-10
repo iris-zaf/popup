@@ -36,6 +36,6 @@ RUN mkdir -p /app/public/uploads/images/popup \
 
 # Expose the port Render expects
 EXPOSE 8080
-
+ENV PORT=8080
 # Start PHP built-in server using the dynamic Render PORT
-CMD ["php", "-S", "0.0.0.0:${PORT:-8080}", "-t", "public"]
+CMD php -S 0.0.0.0:${PORT:-8080} -t public
