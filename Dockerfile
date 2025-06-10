@@ -1,7 +1,13 @@
+# Use PHP 8.3-FPM based on Debian
 FROM php:8.3-fpm
 
-# Install system dependencies required for compilation and the MongoDB extension
-
+# Install system dependencies required for compilation and PHP extensions
+# - build-essential: provides make, gcc, g++
+# - libssl-dev: OpenSSL development files (crucial for MongoDB's TLS)
+# - pkg-config: helps find libraries during compilation
+# - unzip: for extracting archives
+# - autoconf: often necessary for PECL extensions to build correctly
+# - openssl: the actual OpenSSL utility (ensures core OpenSSL is present)
 RUN apt-get update && apt-get install -y \
     build-essential \
     libssl-dev \
@@ -11,11 +17,15 @@ RUN apt-get update && apt-get install -y \
     openssl \
     && rm -rf /var/lib/apt/lists/* # Clean up apt cache to keep image small
 
-# Install the MongoDB PHP extension using PECL
+# Enable the OpenSSL PHP extension first, as MongoDB depends on it for TLS
+# docker-php-ext-install handles compilation and enabling of core PHP extensions
+RUN docker-php-ext-install -j$(nproc) openssl
 
-RUN set -eux; \
-    pecl install mongodb; \
-    docker-php-ext-enable mongodb
+# Install the MongoDB PHP extension using PECL
+# This step builds the actual MongoDB driver.
+# We'll explicitly add LDFLAGS to ensure it links against system OpenSSL if needed.
+RUN pecl install mongodb \
+    && docker-php-ext-enable mongodb
 
 # Set working directory inside the container
 WORKDIR /app
@@ -27,9 +37,13 @@ COPY . /app
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Run Composer to install your PHP dependencies
+# --no-dev: Skip development dependencies to reduce image size and build time
+# --optimize-autoloader: Generate an optimized autoloader for faster runtime performance
 RUN composer install --no-dev --optimize-autoloader
 
 # Create upload folders & make them writable
+# Permissions 777 are broad and generally not recommended for production,
+# but used for simplicity in demos. For production, use more restrictive permissions.
 RUN mkdir -p /app/public/uploads/images/popup \
     && chmod -R 777 /app/public/uploads \
     && chmod -R 777 /app/config
