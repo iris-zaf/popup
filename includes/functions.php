@@ -8,7 +8,24 @@ function get_popup_settings()
 
     $settings = $collection->findOne(['_id' => 'main_settings']);
 
-    return $settings ? (array) $settings : [];
+    $defaults = [
+        'enabled' => false,
+        'trigger' => 'exit-intent',
+        'delay' => 5,
+        'scroll_percent' => 50,
+        'cookie_duration' => 1,
+        'heading' => '',
+        'message' => '',
+        'target_page' => 'all',
+        'image_url' => '',
+        'button_text' => '',
+        'button_link' => '',
+        'button_bg_color' => '#007bff',
+        'button_text_color' => '#ffffff',
+        'display_mode' => 'standard',
+    ];
+
+    return array_merge($defaults, (array) $settings);
 }
 
 function save_popup_settings($data)

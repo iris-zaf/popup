@@ -11,8 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $buttonLink = 'https://' . $buttonLink;
     }
     $newSettings = [
-        'enabled' => $_POST['enabled'] == '1' ? true : false,
-        'trigger' => $_POST['trigger'],
+        'enabled' => isset($_POST['enabled']) && $_POST['enabled'] == '1',
+        'trigger' => $_POST['trigger'] ?? 'delay',
         'cookie_duration' => isset($_POST['cookie_duration']) ? (int) $_POST['cookie_duration'] : 1,
         'heading' => $_POST['heading'] ?? '',
         'message' => $_POST['message'] ?? '',
@@ -42,10 +42,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    if ($_POST['trigger'] === 'delay') {
+    if (isset($_POST['trigger']) && $_POST['trigger'] === 'delay') {
         $newSettings['delay'] = isset($_POST['delay']) ? (int) $_POST['delay'] : 5;
     }
-    if ($_POST['trigger'] === 'scroll') {
+    if (isset($_POST['trigger']) && $_POST['trigger'] === 'scroll') {
         $newSettings['scroll_percent'] = isset($_POST['scroll_percent']) ? (int) $_POST['scroll_percent'] : 50;
     }
 
