@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newSettings = [
         'enabled' => isset($_POST['enabled']) && $_POST['enabled'] == '1',
         'trigger' => $_POST['trigger'] ?? 'delay',
-        'cookie_duration' => isset($_POST['cookie_duration']) ? (int) $_POST['cookie_duration'] : 1,
+        'cookie_duration' =>  is_numeric($_POST['cookie_duration'] ?? null) ? (int) $_POST['cookie_duration'] : 1,
         'heading' => $_POST['heading'] ?? '',
         'message' => $_POST['message'] ?? '',
         'target_page' => $_POST['target_page'] ?? 'all',
@@ -59,13 +59,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <head>
     <title>Popup Admin Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" href="<?= PLUGIN_ROOT ?>admin/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="<?= PLUGIN_ASSETS ?>css/admin-styles.css">
 </head>
 
 <body>
-    <div class="admin-container">
+    <div class="container admin-container">
         <div class="row">
             <div class="col-8">
                 <h2 class="mb-4">🛠 Popup Settings</h2>
@@ -184,7 +185,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label class="form-label mt-3" title="This is the cookie duration of the popup in days">Cookie Duration
                     (in
                     days):</label>
-                <input type="number" class="form-control" name="cookie_duration" min="1"
+                <input type="number" class="form-control" name="cookie_duration" min="0"
                     value="<?= htmlspecialchars($settings['cookie_duration'] ?? 1) ?>">
 
             </div>

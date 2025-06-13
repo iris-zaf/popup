@@ -17,7 +17,9 @@ function showPopup() {
 function closePopup() {
   document.getElementById("popup").style.display = "none";
   document.getElementById("popup-overlay").style.display = "none";
-  setCookie("popup_shown", "1", settings.cookie_duration || 1);
+  if (settings.cookie_duration > 0) {
+    setCookie("popup_shown", "1", settings.cookie_duration);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
