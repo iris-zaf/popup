@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../../includes/functions.php';
+include __DIR__ . '/../../includes/header.php';
+
 ?>
 <div class="container intro">
     <h1>👋 Hi, I'm Iris</h1>

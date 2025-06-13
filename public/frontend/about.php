@@ -1,7 +1,9 @@
 <?php
 require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../../includes/functions.php';
+include __DIR__ . '/../../includes/header.php';
 ?>
+
 <div class="about-section text-center">
     <h1>🙋‍♀️ About Me</h1>
     <p>Hi! I’m Iris Kalogirou, a curious developer who enjoys solving tricky bugs and building clean interfaces.</p>
