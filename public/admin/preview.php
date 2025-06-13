@@ -2,7 +2,8 @@
 require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../../includes/functions.php';
 
-$settings = get_popup_settings();
+$page = $_POST['target_page'] ?? $_GET['page'] ?? null;
+$settings = get_popup_settings($page);
 $mode = $settings['display_mode'] ?? 'standard';
 $imageUrl = !empty($settings['image_url']) ? PLUGIN_UPLOADS . htmlspecialchars($settings['image_url']) : '';
 $buttonText = htmlspecialchars($settings['button_text'] ?? '');

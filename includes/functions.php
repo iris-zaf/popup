@@ -1,13 +1,21 @@
 <?php
 require_once __DIR__ . '/../config/config.php';
 
-function get_popup_settings()
+function get_popup_settings($page = null)
 {
     global $mongoDb;
     $collection = $mongoDb->selectCollection('popup_settings');
 
-    $settings = $collection->findOne(['_id' => 'main_settings']);
-
+    $settings = $collection->findOne(['target_page' => $page]);
+    if ($page) {
+        $settings = $collection->findOne(['target_page' => $page]);
+        if (!$settings) {
+            // fallback if not exists
+            $settings = $collection->findOne(['target_page' => 'all']);
+        }
+    } else {
+        $settings = $collection->findOne(['target_page' => 'all']);
+    }
     $defaults = [
         'enabled' => false,
         'trigger' => 'exit-intent',
@@ -33,10 +41,9 @@ function save_popup_settings($data)
     global $mongoDb;
 
     $collection = $mongoDb->selectCollection('popup_settings');
-
+    $page = $data['target_page'] ?? 'all';
     // Prepare the document with default values
     $document = [
-        '_id' => 'main_settings',
         'enabled' => $data['enabled'] ?? false,
         'trigger' => $data['trigger'] ?? null,
         'delay' => $data['delay'] ?? null,
@@ -44,7 +51,7 @@ function save_popup_settings($data)
         'cookie_duration' => $data['cookie_duration'] ?? 1,
         'heading' => $data['heading'] ?? '',
         'message' => $data['message'] ?? '',
-        'target_page' => $data['target_page'] ?? 'all',
+        'target_page' => $page,
         'image_url' => $data['image_url'] ?? '',
         'button_text' => $data['button_text'] ?? '',
         'button_link' => $data['button_link'] ?? '',
@@ -53,11 +60,14 @@ function save_popup_settings($data)
         'display_mode' => $data['display_mode'] ?? 'standard'
     ];
 
-    // Use updateOne with upsert to create/update the single settings document.
-    // If a document with _id 'main_settings' exists, it updates it. If not, it inserts it.
     $collection->updateOne(
-        ['_id' => 'main_settings'],
+        ['target_page' => $page],
         ['$set' => $document],
         ['upsert' => true]
     );
+}
+function render_popup_view($page = null)
+{
+    $settings = get_popup_settings($page);
+    include __DIR__ . '/../views/popup-view.php';
 }

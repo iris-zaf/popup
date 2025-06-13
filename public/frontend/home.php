@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/../../config/config.php';
+require_once __DIR__ . '/../../includes/functions.php';
+?>
 <div class="container intro">
     <h1>👋 Hi, I'm Iris</h1>
     <p>I’m passionate about coding, debugging, and hitting the track for a good run. 🏃‍♀️💻</p>
@@ -53,9 +57,10 @@
 
     <div style="min-height: 1000px;"></div>
 
-    <footer class="text-center py-4 text-muted">
+    <div class="text-center py-4 text-muted">
         &copy; <?= date("Y") ?> Iris Kalogirou · Built with ❤️ using PHP and Bootstrap
-    </footer>
+    </div>
 
 
 </div>
+<?php include __DIR__ . '/../../includes/footer.php'; ?>

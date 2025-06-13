@@ -19,7 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function openPreview() {
   const frame = document.getElementById("previewFrame");
-  frame.src = "preview.php";
+  const page = document.querySelector('[name="target_page"]').value;
+  frame.src = `preview.php?page=${encodeURIComponent(page)}`;
 
   const modal = new bootstrap.Modal(document.getElementById("previewModal"));
   modal.show();

@@ -10,6 +10,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($buttonLink && !preg_match('/^https?:\/\//', $buttonLink)) {
         $buttonLink = 'https://' . $buttonLink;
     }
+    if (!isset($newSettings['image_url'])) {
+        $newSettings['image_url'] = $_POST['image_url'] ?? ($settings['image_url'] ?? '');
+    }
     $newSettings = [
         'enabled' => isset($_POST['enabled']) && $_POST['enabled'] == '1',
         'trigger' => $_POST['trigger'] ?? 'delay',
@@ -17,7 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'heading' => $_POST['heading'] ?? '',
         'message' => $_POST['message'] ?? '',
         'target_page' => $_POST['target_page'] ?? 'all',
-        'image_url' => $settings['image_url'] ?? '',
         'button_text' => $_POST['button_text'] ?? '',
         'button_link' => $buttonLink,
         'button_bg_color' => $_POST['button_bg_color'] ?? '#007bff',
@@ -26,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     ];
+
     if (isset($_FILES['popup_image']) && $_FILES['popup_image']['error'] === UPLOAD_ERR_OK) {
         $fileTmpPath = $_FILES['popup_image']['tmp_name'];
         $fileName = basename($_FILES['popup_image']['name']);
@@ -41,7 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
-
+    if (!isset($newSettings['image_url'])) {
+        $newSettings['image_url'] = $_POST['image_url'] ?? ($settings['image_url'] ?? '');
+    }
     if (isset($_POST['trigger']) && $_POST['trigger'] === 'delay') {
         $newSettings['delay'] = isset($_POST['delay']) ? (int) $_POST['delay'] : 5;
     }
@@ -189,15 +194,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     value="<?= htmlspecialchars($settings['cookie_duration'] ?? 1) ?>">
 
             </div>
-            <label class="form-label mt-3" title="Select which page(s) to show the popup on">Show on Page(s):</label>
-            <select name="target_page" class="form-select">
-                <option value="all" <?= ($settings['target_page'] ?? '') === 'all' ? 'selected' : '' ?>>All Pages
-                </option>
-                <option value="home" <?= ($settings['target_page'] ?? '') === 'home' ? 'selected' : '' ?>>
-                    Homepage</option>
-                <option value="about" <?= ($settings['target_page'] ?? '') === 'about' ? 'selected' : '' ?>>About Page
-                </option>
-            </select>
+            <label class="form-label mt-3" title="Enter the page where this popup should show">Target Page:</label>
+            <input type="text" class="form-control" name="target_page"
+                value="<?= htmlspecialchars($settings['target_page'] ?? '') ?>"
+                placeholder="e.g. home, about, contact, promo-landing" required>
 
 
             <div class="d-flex gap-2 mt-4">
