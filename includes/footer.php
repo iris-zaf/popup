@@ -5,10 +5,10 @@
     $page = $_GET['page'] ?? 'home';
     $settings = get_popup_settings($page);
 
-    include __DIR__ . '/../views/popup-view.php';
+    include __DIR__ . '/../../views/popup-view.php';
     ?>
    <!--  FOR production -->
-    <script src="/assets/js/frontend-scripts.js"></script>
+   <script src="/assets/js/frontend-scripts.js"></script>
    <!-- FOR localhost
    <script>
        const settings = <?= json_encode(get_popup_settings($page)) ?>;
