@@ -4,10 +4,6 @@
 
     $page = $_GET['page'] ?? 'home';
     $settings = get_popup_settings($page);
-
-    $page = $_GET['page'] ?? 'home';
-    $settings = get_popup_settings($page);
-
     require_once __DIR__ . '/../public/views/popup-view.php';
     ?>
    <!--  FOR production -->

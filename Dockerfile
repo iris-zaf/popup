@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
     autoconf \
     zlib1g-dev \
     libzip-dev \
+    ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 # Install the MongoDB PHP extension using PECL

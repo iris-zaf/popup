@@ -36,13 +36,21 @@ function get_popup_settings($page = null)
     return array_merge($defaults, (array) $settings);
 }
 
-function save_popup_settings($data)
+function save_popup_settings($data, $originalPage = null)
 {
     global $mongoDb;
-
     $collection = $mongoDb->selectCollection('popup_settings');
-    $page = $data['target_page'] ?? 'all';
-    // Prepare the document with default values
+
+    $newPage = $data['target_page'] ?? 'all';
+
+    // Check for conflict only if the page was changed
+    if ($originalPage !== null && $originalPage !== $newPage) {
+        $existing = $collection->findOne(['target_page' => $newPage]);
+        if ($existing) {
+            throw new Exception("A popup for the page '$newPage' already exists.");
+        }
+    }
+
     $document = [
         'enabled' => $data['enabled'] ?? false,
         'trigger' => $data['trigger'] ?? null,
@@ -51,7 +59,7 @@ function save_popup_settings($data)
         'cookie_duration' => $data['cookie_duration'] ?? 1,
         'heading' => $data['heading'] ?? '',
         'message' => $data['message'] ?? '',
-        'target_page' => $page,
+        'target_page' => $newPage,
         'image_url' => $data['image_url'] ?? '',
         'button_text' => $data['button_text'] ?? '',
         'button_link' => $data['button_link'] ?? '',
@@ -59,15 +67,23 @@ function save_popup_settings($data)
         'button_text_color' => $data['button_text_color'] ?? '#ffffff',
         'display_mode' => $data['display_mode'] ?? 'standard'
     ];
+    $filter = ['target_page' => $originalPage ?: $newPage];
 
     $collection->updateOne(
-        ['target_page' => $page],
+        $filter,
         ['$set' => $document],
         ['upsert' => true]
     );
 }
+
 function render_popup_view($page = null)
 {
     $settings = get_popup_settings($page);
     include __DIR__ . '/../views/popup-view.php';
+}
+// Get all popups
+function get_all_popups()
+{
+    global $mongoDb;
+    return $mongoDb->popup_settings->find()->toArray();
 }
