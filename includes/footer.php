@@ -5,8 +5,10 @@
     $page = $_GET['page'] ?? 'home';
     $settings = get_popup_settings($page);
 
-    include __DIR__ . '/../../views/popup-view.php';
+    include $_SERVER['DOCUMENT_ROOT'] . '/popup/views/popup-view.php';
     ?>
+   echo "
+   <pre>" . $_SERVER['DOCUMENT_ROOT'] . "/popup/views/popup-view.php</pre>";
    <!--  FOR production -->
    <script src="/assets/js/frontend-scripts.js"></script>
    <!-- FOR localhost
