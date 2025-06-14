@@ -4,8 +4,11 @@
 
     $page = $_GET['page'] ?? 'home';
     $settings = get_popup_settings($page);
-    require_once __DIR__ . '/../views/popup-view.php';
-    echo "" . $_SERVER['DOCUMENT_ROOT'] . "/views/popup-view.php";
+
+    $page = $_GET['page'] ?? 'home';
+    $settings = get_popup_settings($page);
+
+    require_once __DIR__ . '/../public/views/popup-view.php';
     ?>
    <!--  FOR production -->
    <script src="/assets/js/frontend-scripts.js"></script>
